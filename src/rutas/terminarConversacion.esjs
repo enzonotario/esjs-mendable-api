@@ -1,0 +1,26 @@
+const MENDABLE_API_URL = "https://api.mendable.ai/v0/endConversation"
+
+exportar porDefecto asincrono funcion (req, res) {
+  const conversacionId = req.params.conversacionId
+
+  const data = {
+    api_key: importar.meta.env.VITE_MENDABLE_API_KEY,
+    conversation_id: conversacionId,
+  }
+
+  intentar {
+    const respuesta = esperar fetch(MENDABLE_API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+
+    retornar res.status(200).json({ mensaje: "Conversación finalizada" })
+  } capturar (error) {
+    consola.escribir({ error })
+
+    retornar res.status(500).json({ error: "Error al finalizar la conversación" })
+  }
+}

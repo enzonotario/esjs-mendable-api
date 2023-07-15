@@ -1,0 +1,36 @@
+const MENDABLE_API_URL = "https://api.mendable.ai/v0/mendableChat"
+
+exportar porDefecto asincrono funcion (req, res) {
+  const conversacionId = req.params.conversacionId
+  const pregunta = req && req.body ? req.body.pregunta : ""
+
+  si ("" === pregunta.recortarEspacios()) {
+    retornar res.status(400).json({ error: "Por favor ingresa una pregunta" })
+  }
+
+  const data = {
+    api_key: importar.meta.env.VITE_MENDABLE_API_KEY,
+    question: pregunta,
+    conversation_id: conversacionId,
+    shouldStream: falso,
+  }
+
+  intentar {
+    const respuesta = esperar fetch(MENDABLE_API_URL, {
+      method: "POST",
+      headers: {
+        Accept: "text/event-stream",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+
+    retornar res
+      .status(200)
+      .json({ respuesta: (esperar respuesta.json()).answer.text })
+  } capturar (error) {
+    consola.escribir({ error })
+
+    retornar res.status(500).json({ error: "Error al obtener respuesta" })
+  }
+}

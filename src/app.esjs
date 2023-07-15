@@ -1,12 +1,16 @@
 importar express desde 'express';
 importar httpDevServer desde 'vavite/http-dev-server';
-importar inicio desde './rutas/inicio.esjs'
-importar estado desde './rutas/estado.esjs'
+importar nuevaConversacion desde './rutas/nuevaConversacion.esjs'
+importar terminarConversacion desde './rutas/terminarConversacion.esjs'
+importar chat desde './rutas/chat.esjs'
 
 const app = express();
 
-app.get('/', inicio);
-app.get('/estado', estado);
+app.use(express.json());
+
+app.post('/api/v1/conversacion', nuevaConversacion);
+app.post('/api/v1/conversacion/:conversacionId/chat', chat);
+app.delete('/api/v1/conversacion/:conversacionId', terminarConversacion);
 
 si (httpDevServer) {
 	httpDevServer.on('request', app);
