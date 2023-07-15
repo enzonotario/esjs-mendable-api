@@ -1,5 +1,6 @@
 importar express desde 'express';
 importar httpDevServer desde 'vavite/http-dev-server';
+importar cors desde 'cors'
 importar nuevaConversacion desde './rutas/nuevaConversacion.esjs'
 importar terminarConversacion desde './rutas/terminarConversacion.esjs'
 importar chat desde './rutas/chat.esjs'
@@ -7,6 +8,7 @@ importar chat desde './rutas/chat.esjs'
 const app = express();
 
 app.use(express.json());
+app.use(cors())
 
 app.post('/api/v1/conversacion', nuevaConversacion);
 app.post('/api/v1/conversacion/:conversacionId/chat', chat);
